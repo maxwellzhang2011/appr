@@ -5,6 +5,8 @@ INSTALL_ALLOW=0
 UNINSTALL_ALLOW=0
 
 all:
+	rm -rf release
+	mkdir release
 	$(CC) $(CFLAGS) $(CFILES) -o release/appr
 	@ echo 'output at: release/arp'
 
