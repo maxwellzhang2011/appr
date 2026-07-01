@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-unsigned int split(char ***out, char *in){
+void split(char ***out, char *in){
     char *buffer;
     *out = (char**)malloc(sizeof(char*));
     unsigned int size = 0, outi=0, i=0;
@@ -30,6 +30,4 @@ unsigned int split(char ***out, char *in){
     }
     *out = (char**)realloc(*out, (outi+1)*sizeof(char*));
     (*out)[outi] = NULL;
-    outi++;
-    return outi;
 }

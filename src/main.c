@@ -1,3 +1,4 @@
+#include <GL/gl.h>
 #include <stdio.h>
 #include <dirent.h>
 #include <pwd.h>
@@ -5,12 +6,15 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <GLFW/glfw3.h>
+#include <GL/gl.h>
 
 #include "../depend/load_apps.h"
-#include "../depend/split.h"
+#include "../depend/launch.h"
 
 int main(){
     //initing the app location
+    double xpos, ypos;
     DIR *dir1 = opendir("/usr/share/applications/");
     DIR *dir2 = opendir("/usr/local/share/applications/");
     struct passwd *pw = getpwuid(getuid());
@@ -30,24 +34,23 @@ int main(){
     dir2 = opendir("/usr/local/share/applications/");
     dir3 = opendir(pw->pw_dir);
     load_apps(dir1, dir2, dir3, pw->pw_dir, softwares);
-    
+
     for(unsigned int i = 0; i < size; i++){
         printf("%s\n", softwares[i].name);
     }
-    char input[256], **command;
-    fgets(input, 256, stdin);
-    input[strcspn(input, "\n")] = '\0';
-    
+
+    char buff[256];
+    fgets(buff, 256, stdin);
+    buff[strcspn(buff, "\n")] = 0;
     for(unsigned int i = 0; i < size; i++){
-        if(!strcmp(softwares[i].name, input)){
+        if(!strcmp(softwares[i].name, buff)){
             index = i;
-            goto launching;
+            goto launch;
         }
     }
-    printf("didn't find that option");
+    printf("can't launch: no such option\n");
     return 0;
-    launching:
-    sizeofcmd = split(&command, softwares[index].exec);
-    execvp(command[0], command);
+    launch:
+    launch(softwares[index].exec);
     return 0;
 }

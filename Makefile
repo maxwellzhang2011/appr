@@ -1,6 +1,6 @@
 CC = clang
 CFLAGS = -lglfw -lGL -lm -g
-CFILES = src/main.c src/load_apps.c src/split.c
+CFILES = src/main.c src/load_apps.c src/split.c src/launch.c
 INSTALL_ALLOW=0
 UNINSTALL_ALLOW=0
 
@@ -16,6 +16,7 @@ install:
 	@ if [ "$(INSTALL_ALLOW)" = "1" ]; then \
 		chmod +x release/appr; \
 		sudo mv release/appr /usr/local/bin/; \
+		echo 'appr installed' \
 	else \
 		echo 'add INSTALL_ALLOW=1 as a make flag'; \
 	fi
@@ -23,6 +24,7 @@ install:
 uninstall:
 	@ if [ "$(UNINSTALL_ALLOW)" = "1" ]; then \
 		sudo rm /usr/local/bin/appr; \
+		echo 'appr uninstalled' \
 	else \
 		echo 'add UNINSTALL_ALLOW=1 as a make flag'; \
 	fi
